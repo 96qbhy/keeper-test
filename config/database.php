@@ -5,11 +5,11 @@ return [
     'connections' => [
         'mysql' => [
             'driver' => 'mysql',
-            'database' => '',
-            'host' => '',
+            'database' => 'merchant_backend',
+            'host' => '172.16.10.142',
             'port' => 3306,
-            'username' => '',
-            'password' => '',
+            'username' => 'tester',
+            'password' => 'Huliao.123',
             'charset' => 'utf8mb4',
         ],
     ]

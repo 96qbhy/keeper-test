@@ -2,6 +2,6 @@
 
 return [
     'registers' => [
-        App\Http\RouteRegister::class
+        App\Http\RouteRegister::class,
     ]
 ];

@@ -1,10 +1,23 @@
 <?php
 
+use App\Database\Connections\ConnectionPool;
 use App\Http\Service;
 use Dybasedev\Keeper\Http\ProcessKernels\KeeperKernel;
 use Dybasedev\Keeper\Server\HttpServer;
 
 require __DIR__ . '/vendor/autoload.php';
+
+
+$config = require_once __DIR__ . '/config/database.php';
+
+$pool = new ConnectionPool($config['connections']['mysql']);
+
+$connection = $pool->fetchIdleConnection();
+
+$data = $connection->occupy()->fetchAll('select * from merchants');
+
+dd($data);
+
 
 // 创建服务器调度内核
 $kernel = new KeeperKernel(
