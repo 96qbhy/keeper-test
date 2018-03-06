@@ -1,0 +1,12 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: xiejianlai
+ * Date: 2018/3/6
+ * Time: 下午5:17
+ */
+
+class Connection
+{
+    
+}
