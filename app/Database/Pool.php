@@ -23,6 +23,7 @@ class Pool
         if (!static::$pool) {
             $config = require __DIR__ . '/../../config/database.php';
             static::$pool = new ConnectionPool($config['connections'][$config['default']]);
+            static::$pool->createConnection();
         }
         
         return self::$pool;

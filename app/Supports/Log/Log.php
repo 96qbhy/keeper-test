@@ -15,7 +15,6 @@ class Log
 {
     protected static $config = [
         'name' => 'keeper',
-        'path' => ''
     ];
     
     /** @var Logger */
@@ -28,13 +27,21 @@ class Log
     public static function getLogger(): Logger
     {
         if (!static::$logger) {
-            static::$logger = new Logger(static::$config['name']);
-            static::$logger->pushHandler(
+            static::initConfig();
+            $logger = new Logger(static::$config['name']);
+            $logger->pushHandler(
                 new StreamHandler(static::$config['path'], Logger::WARNING)
             );
+            static::$logger = $logger;
         }
         
         return static::$logger;
+    }
+    
+    public static function initConfig()
+    {
+        $app_config = require __DIR__ . '/../../../config/app.php';
+        static::$config['path'] = $app_config['log']['path'];
     }
     
     /**

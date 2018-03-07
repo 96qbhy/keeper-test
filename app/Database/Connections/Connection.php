@@ -11,13 +11,8 @@ namespace App\Database\Connections;
 use PDO;
 use PDOStatement;
 
-class Connection
+class Connection implements ConnectionInterface
 {
-    const STATUS_CONNECTING = 1;
-    const STATUS_BUSY = 2;
-    const STATUS_IDLE = 3;
-    const STATUS_CLOSED = 4;
-    
     /**
      * @var int
      */
@@ -46,7 +41,7 @@ class Connection
      *
      * @return $this
      */
-    public function occupy()
+    public function occupy(): Connection
     {
         $this->status = $this::STATUS_BUSY;
         
@@ -59,7 +54,7 @@ class Connection
      *
      * @return $this
      */
-    public function release()
+    public function release(): Connection
     {
         $this->status = $this::STATUS_IDLE;
         
@@ -69,7 +64,7 @@ class Connection
     /**
      * 连接数据库
      */
-    private function connect()
+    public function connect(): void
     {
         if (!$this->connection) {
             $options = [
