@@ -1,6 +1,7 @@
 {
   "require": {
-    "dybasedev/keeper": "dev-master"
+    "dybasedev/keeper": "dev-master",
+    "monolog/monolog": "^1.23"
   },
   "require-dev": {
     "eaglewu/swoole-ide-helper": "dev-master"

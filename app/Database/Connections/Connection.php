@@ -89,8 +89,7 @@ class Connection
      */
     public function query($sql, array $parameters = []): PDOStatement
     {
-        $this->status = $this::STATUS_BUSY;
-        $this->lastSQL = $sql;
+        $this->occupy()->lastSQL = $sql;
         $statement = $this->connection->prepare($sql);
         $statement->execute($parameters);
         
@@ -107,7 +106,10 @@ class Connection
     public function fetch($sql, array $parameters = []): array
     {
         $statement = $this->query($sql, $parameters);
-        return $statement->fetch();
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
+        $this->release();
+        
+        return $data;
     }
     
     /**
@@ -120,7 +122,10 @@ class Connection
     public function fetchAll($sql, array $parameters = []): array
     {
         $statement = $this->query($sql, $parameters);
-        return $statement->fetchAll();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $this->release();
+        
+        return $data;
     }
     
 }

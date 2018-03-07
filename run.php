@@ -7,18 +7,6 @@ use Dybasedev\Keeper\Server\HttpServer;
 
 require __DIR__ . '/vendor/autoload.php';
 
-
-$config = require_once __DIR__ . '/config/database.php';
-
-$pool = new ConnectionPool($config['connections']['mysql']);
-
-$connection = $pool->fetchIdleConnection();
-
-$data = $connection->occupy()->fetchAll('select * from merchants');
-
-dd($data);
-
-
 // 创建服务器调度内核
 $kernel = new KeeperKernel(
 // 创建 HTTP 服务逻辑
@@ -30,7 +18,6 @@ $kernel = new KeeperKernel(
 
 // 创建 HTTP 服务器
 $server = new HttpServer($kernel);
-
 
 $pid_file = __DIR__ . '/temp/keeper.pid';
 // 对服务器的额外选项设置

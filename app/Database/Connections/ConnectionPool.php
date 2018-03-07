@@ -12,7 +12,7 @@ namespace App\Database\Connections;
 class ConnectionPool
 {
     /* @var int 链接池大小 */
-    protected $size;
+    public $max_size;
     
     /** @var array 链接配置 */
     protected $connectionConfig;
@@ -28,7 +28,7 @@ class ConnectionPool
     public function __construct(array $config, $size = 10)
     {
         $this->connectionConfig = $config;
-        $this->size = $size;
+        $this->max_size = $size;
     }
     
     /**
@@ -62,19 +62,17 @@ class ConnectionPool
         
         foreach ($this->connections as $connection) {
             if ($connection->status === Connection::STATUS_IDLE) {
-                return $connection;
+                return $connection->occupy();
             }
         }
         
-        if (count($this->connections) < $this->size) {
-            
+        if (count($this->connections) < $this->max_size) {
             $connection = $this->createConnection();
-            $this->connections[] = $connection;
         } else {
             $connection = $this->fetchIdleConnection();
         }
         
-        return $connection;
+        return $connection->occupy();
     }
     
     /**
@@ -85,7 +83,8 @@ class ConnectionPool
     public function createConnection(): Connection
     {
         $connection = new Connection($this->connectionConfig);
-        
+        $this->connections[] = $connection;
+    
         return $connection;
     }
     
