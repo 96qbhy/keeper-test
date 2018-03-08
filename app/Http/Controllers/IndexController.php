@@ -45,12 +45,23 @@ class IndexController extends Controller
         }
     }
     
+    /**
+     * @return \App\Http\Response
+     * @throws \Exception
+     */
     public function ab()
     {
         return $this->response([
-            'logger' => Log::getLogger()->info('aaa', [
+            'logger' => Log::info('aaa', [
                 '啦啦'
             ]),
+            'd' => Log::error('aaa', [
+                '啦啦'
+            ]),
+            'a' => Log::debug('aaa', [
+                '啦啦'
+            ]),
+            'q' => Log::alert('a'),
         ]);
     }
 }

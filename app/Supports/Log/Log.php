@@ -11,6 +11,19 @@ namespace App\Supports\Log;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
+/**
+ * Class Log
+ *
+ * @method static null|bool info(string $message, array $arguments = [])
+ * @method static null|bool debug(string $message, array $arguments = [])
+ * @method static null|bool warning(string $message, array $arguments = [])
+ * @method static null|bool error(string $message, array $arguments = [])
+ * @method static null|bool err(string $message, array $arguments = [])
+ * @method static null|bool warn(string $message, array $arguments = [])
+ * @method static null|bool alert(string $message, array $arguments = [])
+ * @mixin Logger
+ * @package App\Supports\Log
+ */
 class Log
 {
     protected static $config = [
@@ -30,7 +43,7 @@ class Log
             static::initConfig();
             $logger = new Logger(static::$config['name']);
             $logger->pushHandler(
-                new StreamHandler(static::$config['path'], Logger::WARNING)
+                new StreamHandler(static::$config['path'])
             );
             static::$logger = $logger;
         }
@@ -45,36 +58,23 @@ class Log
     }
     
     /**
-     * @param $message
-     * @param array $context
-     * @return bool
+     * @param $name
+     * @param $arguments
+     * @return null|bool
      * @throws \Exception
      */
-    public static function info($message, array $context = []): bool
+    public static function __callStatic($name, $arguments)
     {
-        return static::getLogger()->info($message, $context);
+        $logger = static::getLogger();
+        
+        $logger->debug('__callStatic', func_get_args());
+        
+        if (method_exists($logger, $name)) {
+            return $logger->$name(...$arguments);
+        }
+        
+        return null;
     }
     
-    /**
-     * @param $message
-     * @param array $context
-     * @return bool
-     * @throws \Exception
-     */
-    public static function error($message, array $context = []): bool
-    {
-        return static::getLogger()->error($message, $context);
-    }
-    
-    /**
-     * @param $message
-     * @param array $context
-     * @return bool
-     * @throws \Exception
-     */
-    public static function alert($message, array $context = []): bool
-    {
-        return static::getLogger()->alert($message, $context);
-    }
     
 }
