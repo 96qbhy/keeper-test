@@ -1,12 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: xiejianlai
+ * User: qbhy
  * Date: 2018/3/7
  * Time: 下午5:05
  */
 
-namespace App\Database\Connections;
+namespace App\Database\Connection;
 
 
 interface ConnectionInterface
@@ -15,6 +14,7 @@ interface ConnectionInterface
     const STATUS_BUSY = 2;
     const STATUS_IDLE = 3;
     const STATUS_CLOSED = 4;
+    
     
     /**
      * @return ConnectionInterface
@@ -26,5 +26,4 @@ interface ConnectionInterface
      */
     public function release();
     
-    public function connect(): void;
 }

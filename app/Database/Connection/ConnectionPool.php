@@ -1,18 +1,16 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: xiejianlai
  * Date: 2018/3/6
  * Time: 下午5:18
  */
 
-namespace App\Database\Connections;
-
+namespace App\Database\Connection;
 
 class ConnectionPool
 {
     /* @var int 链接池大小 */
-    public $max_size;
+    public $size;
     
     /** @var array 链接配置 */
     protected $connectionConfig;
@@ -28,7 +26,7 @@ class ConnectionPool
     public function __construct(array $config, $size = 10)
     {
         $this->connectionConfig = $config;
-        $this->max_size = $size;
+        $this->size = $size;
     }
     
     /**
@@ -66,7 +64,7 @@ class ConnectionPool
             }
         }
         
-        if (count($this->connections) < $this->max_size) {
+        if (count($this->connections) < $this->size) {
             $connection = $this->createConnection();
         } else {
             $connection = $this->fetchIdleConnection();
@@ -82,9 +80,9 @@ class ConnectionPool
      */
     public function createConnection(): Connection
     {
-        $connection = new Connection($this->connectionConfig);
+        $connection = new Connection($this->connectionConfig['driver'], $this->connectionConfig);
         $this->connections[] = $connection;
-    
+        
         return $connection;
     }
     

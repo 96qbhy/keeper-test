@@ -67,8 +67,6 @@ class Log
     {
         $logger = static::getLogger();
         
-        $logger->debug('__callStatic', func_get_args());
-        
         if (method_exists($logger, $name)) {
             return $logger->$name(...$arguments);
         }

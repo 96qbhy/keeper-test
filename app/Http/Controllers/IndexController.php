@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Database\Connections\ConnectionPool;
-use App\Database\Pool;
+use App\Database\DatabaseModule;
+use App\Database\DB;
 use App\Supports\Log\Log;
+use Pixie\Connection;
 
 class IndexController extends Controller
 {
@@ -23,7 +25,7 @@ class IndexController extends Controller
     {
         try {
             
-            $pool = Pool::getPool();
+            $pool = DatabaseModule::getPool();
             
             $connection = $pool->fetchIdleConnection();
             
@@ -62,6 +64,13 @@ class IndexController extends Controller
                 '啦啦'
             ]),
             'q' => Log::alert('a'),
+        ]);
+    }
+    
+    public function qb(DB $db)
+    {
+        return $this->response([
+            'lalal' => '',
         ]);
     }
 }

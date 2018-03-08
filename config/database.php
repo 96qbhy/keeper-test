@@ -1,7 +1,9 @@
 <?php
 return [
     'default' => 'mysql',
-
+    
+    'max_connections__count' => 10,
+    
     'connections' => [
         'mysql' => [
             'driver' => 'mysql',
@@ -11,6 +13,7 @@ return [
             'username' => 'tester',
             'password' => 'Huliao.123',
             'charset' => 'utf8mb4',
+            'prefix' => '',
         ],
     ]
 ];
