@@ -55,3 +55,14 @@ if (!function_exists('keeper_error_handler')) {
         Log::info('出现异常', compact('type', 'message', 'file', 'line'));
     }
 }
+
+if (!function_exists('_log')) {
+    /**
+     * @return \Monolog\Logger
+     * @throws Exception
+     */
+    function _log()
+    {
+        return Log::getLogger();
+    }
+}

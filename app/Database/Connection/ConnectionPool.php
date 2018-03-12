@@ -23,7 +23,7 @@ class ConnectionPool
      * @param array $config
      * @param int $size
      */
-    public function __construct(array $config, $size = 10)
+    public function __construct($config, $size = 10)
     {
         $this->connectionConfig = $config;
         $this->size = $size;

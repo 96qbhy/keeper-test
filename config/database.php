@@ -2,7 +2,7 @@
 return [
     'default' => 'mysql',
     
-    'max_connections__count' => 10,
+    'max_connections_count' => 10,
     
     'connections' => [
         'mysql' => [

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Database\Connections\ConnectionPool;
+use App\Database\Connection\ConnectionPool;
 use App\Database\DatabaseModule;
 use App\Database\DB;
 use App\Supports\Log\Log;
@@ -21,20 +21,15 @@ class IndexController extends Controller
         ]);
     }
     
-    public function index()
+    public function index(ConnectionPool $pool, DB $DB)
     {
         try {
             
-            $pool = DatabaseModule::getPool();
-            
-            $connection = $pool->fetchIdleConnection();
-            
-            $data = $connection->fetchAll('select * from merchants');
+            $data = $DB->query('select * from merchants')->get();
             
             return $this->response([
-                'pool_connections_count' => count($pool->getConnections()),
                 'data' => $data,
-                'max_connections_count' => $pool->max_size,
+                'count' => count($pool->getConnections())
             ]);
             
             
@@ -51,19 +46,10 @@ class IndexController extends Controller
      * @return \App\Http\Response
      * @throws \Exception
      */
-    public function ab()
+    public function ab(ConnectionPool $pool)
     {
         return $this->response([
-            'logger' => Log::info('aaa', [
-                '啦啦'
-            ]),
-            'd' => Log::error('aaa', [
-                '啦啦'
-            ]),
-            'a' => Log::debug('aaa', [
-                '啦啦'
-            ]),
-            'q' => Log::alert('a'),
+            $pool
         ]);
     }
     

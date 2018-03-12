@@ -16,40 +16,28 @@ use Illuminate\Contracts\Container\Container;
 
 class DatabaseModule implements ModuleProvider
 {
-    /** @var ConnectionPool */
-    public static $pool = null;
-    
-    /**
-     * @return mixed
-     */
-    public static function getPool(): ConnectionPool
-    {
-        if (!static::$pool) {
-            $config = require __DIR__ . '/../../config/database.php';
-            static::$pool = new ConnectionPool($config['connections'][$config['default']]);
-            static::$pool->createConnection();
-        }
-        
-        return static::$pool;
-    }
     
     public function register(Container $container)
     {
-        $config = $container->make(Repository::class)->get('database');
+//        $config = $container->make(Repository::class)->get('database');
+        $config = require __DIR__ . '/../../config/database.php';
         
         $container->singleton(ConnectionPool::class, function (Container $container) use ($config) {
-            return (new ConnectionPool($config['connections'][$config['default']], $config['max_connections__count']))
+            ($pool = new ConnectionPool($config['connections'][$config['default']], $config['max_connections_count']))
                 ->createConnection();
+            
+            return $pool;
         });
         
-    }
-    
-    public function mount(Container $container)
-    {
         $container->bind(DB::class, function (Container $container) {
             /** @var ConnectionPool $pool */
             $pool = $container->make(ConnectionPool::class);
             return (new DB($pool->fetchIdleConnection()));
         });
+    }
+    
+    public function mount(Container $container)
+    {
+    
     }
 }
