@@ -3,60 +3,35 @@
 namespace App\Http\Controllers;
 
 use App\Database\Connection\ConnectionPool;
-use App\Database\DatabaseModule;
 use App\Database\DB;
-use App\Supports\Log\Log;
-use Pixie\Connection;
+use App\Exceptions\Exception;
 
 class IndexController extends Controller
 {
-    public function formatException(\Exception $exception)
-    {
-        return $this->response([
-            'traces' => $exception->getTrace(),
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
-            'message' => $exception->getMessage(),
-            'exception' => get_class($exception)
-        ]);
-    }
     
     public function index(ConnectionPool $pool, DB $DB)
     {
-        try {
-            
-            $data = $DB->query('select * from merchants')->get();
-            
-            return $this->response([
-                'data' => $data,
-                'count' => count($pool->getConnections())
-            ]);
-            
-            
-        } catch (\LogicException $exception) {
-            return $this->formatException($exception);
-        } catch (\RuntimeException $exception) {
-            return $this->formatException($exception);
-        } catch (\Exception $exception) {
-            return $this->formatException($exception);
-        }
+        
+        $data = $DB->table('merchants')->where('id', '>', 1)->get();
+        
+        return $this->json([
+            'data' => $data,
+            'count' => count($pool->getConnections())
+        ]);
+        
+        
     }
     
-    /**
-     * @return \App\Http\Response
-     * @throws \Exception
-     */
-    public function ab(ConnectionPool $pool)
+    public function ab()
     {
-        return $this->response([
-            $pool
+        return $this->json([
         ]);
     }
     
     public function qb(DB $db)
     {
-        return $this->response([
-            'lalal' => '',
+        return $this->json([
+            'lal' => '',
         ]);
     }
 }

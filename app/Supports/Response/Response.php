@@ -6,7 +6,7 @@
  * Time: 下午6:24
  */
 
-namespace App\Http;
+namespace App\Supports\Response;
 
 use Dybasedev\Keeper\Http\Response as BaseResponse;
 

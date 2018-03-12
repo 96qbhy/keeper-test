@@ -7,10 +7,22 @@
 
 namespace App\Exceptions;
 
-class Handler
+
+use App\Supports\Response\ResponseAble;
+use Dybasedev\Keeper\Http\Interfaces\ExceptionHandler;
+use Throwable;
+
+class Handler implements ExceptionHandler
 {
-    public static function handle()
-    {
+    use ResponseAble;
     
+    public function handle(Throwable $throwable)
+    {
+        if (method_exists($throwable, 'render')) {
+            $throwable->render($throwable);
+        }
+        
+        return Exception::formatException($throwable);
     }
+    
 }

@@ -11,7 +11,7 @@ namespace App\Database;
 use App\Database\Connection\ConnectionPool;
 use App\Supports\Log\Log;
 use Dybasedev\Keeper\Module\Interfaces\ModuleProvider;
-use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 
 class DatabaseModule implements ModuleProvider
@@ -19,8 +19,7 @@ class DatabaseModule implements ModuleProvider
     
     public function register(Container $container)
     {
-//        $config = $container->make(Repository::class)->get('database');
-        $config = require __DIR__ . '/../../config/database.php';
+        $config = $container->make(Repository::class)->get('database');
         
         $container->singleton(ConnectionPool::class, function (Container $container) use ($config) {
             ($pool = new ConnectionPool($config['connections'][$config['default']], $config['max_connections_count']))

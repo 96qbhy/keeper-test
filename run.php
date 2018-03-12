@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\Handler;
 use App\Http\Service;
 use App\Supports\Log\Log;
 use Dybasedev\Keeper\Http\ProcessKernels\KeeperKernel;
@@ -15,10 +16,10 @@ try {
 // 创建服务器调度内核
     $kernel = new KeeperKernel(
 // 创建 HTTP 服务逻辑
-        new Service([
+        (new Service([
             'base' => __DIR__,
             'config' => __DIR__ . DIRECTORY_SEPARATOR . 'config',
-        ])
+        ]))->setExceptionHandler(new Handler())
     );
 
 // 创建 HTTP 服务器
