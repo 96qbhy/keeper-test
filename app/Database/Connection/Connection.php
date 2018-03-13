@@ -41,4 +41,10 @@ class Connection extends BaseConnection implements ConnectionInterface
         return $this;
     }
     
+    public function close(): void
+    {
+        $this->pdoInstance = null;
+    }
+    
+    
 }

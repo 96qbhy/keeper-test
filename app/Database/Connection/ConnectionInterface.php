@@ -26,4 +26,9 @@ interface ConnectionInterface
      */
     public function release();
     
+    /**
+     * 关闭数据库链接
+     */
+    public function close();
+    
 }

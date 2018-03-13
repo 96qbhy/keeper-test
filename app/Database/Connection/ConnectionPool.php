@@ -20,10 +20,11 @@ class ConnectionPool
     
     /**
      * ConnectionPool constructor.
+     *
      * @param array $config
-     * @param int $size
+     * @param int   $size
      */
-    public function __construct($config, $size = 10)
+    public function __construct($config, $size = 100)
     {
         $this->connectionConfig = $config;
         $this->size = $size;
@@ -31,6 +32,7 @@ class ConnectionPool
     
     /**
      * @param array $connectionConfig
+     *
      * @return $this
      */
     public function setConnectionConfig(array $connectionConfig): ConnectionPool
@@ -84,6 +86,22 @@ class ConnectionPool
         $this->connections[] = $connection;
         
         return $connection;
+    }
+    
+    public function closeConnection(Connection $connection)
+    {
+        $connection->close();
+        
+        $connections = [];
+        foreach ($this->connections as $conn) {
+            if ($conn === $connection) {
+                continue;
+            }
+            $connections[] = $conn;
+        }
+        $this->connections = $connections;
+        
+        return $this;
     }
     
     

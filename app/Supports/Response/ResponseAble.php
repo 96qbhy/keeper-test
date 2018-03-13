@@ -8,6 +8,7 @@
 
 namespace App\Supports\Response;
 
+use Dybasedev\Keeper\Http\Response;
 
 trait ResponseAble
 {
@@ -16,8 +17,7 @@ trait ResponseAble
      */
     protected function response($content, int $code = 200, array $headers = []): Response
     {
-        $response = new Response($content, $code, $headers);
-        return $response;
+        return new Response($content, $code, $headers);
     }
     
     /**

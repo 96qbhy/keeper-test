@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Database\Connection\ConnectionPool;
 use App\Database\DB;
-use App\Exceptions\Exception;
+use Dybasedev\Keeper\Http\Request;
 
 class IndexController extends Controller
 {
-    
-    public function index(ConnectionPool $pool, DB $DB)
+    public function index(Request $request, DB $DB)
     {
-        
         $data = $DB->table('merchants')->where('id', '>', 1)->get();
         
         return $this->json([
             'data' => $data,
-            'count' => count($pool->getConnections())
+            'fd' => $request->getFd(),
         ]);
         
         

@@ -16,11 +16,18 @@ class Handler implements ExceptionHandler
 {
     use ResponseAble;
     
+    public function report(Throwable $throwable)
+    {
+    
+    }
+    
     public function handle(Throwable $throwable)
     {
         if (method_exists($throwable, 'render')) {
-            $throwable->render($throwable);
+            return $throwable->render($throwable);
         }
+        
+        $this->report($throwable);
         
         return Exception::formatException($throwable);
     }
