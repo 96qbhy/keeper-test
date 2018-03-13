@@ -3,32 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Database\DB;
-use Dybasedev\Keeper\Http\Request;
 
 class IndexController extends Controller
 {
-    public function index(Request $request, DB $DB)
+    public function index()
     {
-        $data = $DB->table('merchants')->where('id', '>', 1)->get();
-        
-        return $this->json([
-            'data' => $data,
-            'fd' => $request->getFd(),
-        ]);
-        
-        
+        return $this->json([]);
     }
     
     public function ab()
     {
-        return $this->json([
-        ]);
+        return $this->json([]);
     }
     
-    public function qb(DB $db)
+    public function qb()
     {
         return $this->json([
-            'lal' => '',
         ]);
     }
 }

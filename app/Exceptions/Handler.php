@@ -29,7 +29,7 @@ class Handler implements ExceptionHandler
         
         $this->report($throwable);
         
-        return Exception::formatException($throwable);
+        return $this->json(Exception::formatException($throwable));
     }
     
 }

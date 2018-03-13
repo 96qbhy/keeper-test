@@ -8,7 +8,6 @@
 
 namespace App\Exceptions;
 
-use App\Supports\Response\Response;
 use App\Supports\Response\ResponseAble;
 use Dybasedev\Keeper\Http\Request;
 use Exception as BaseException;
@@ -29,8 +28,21 @@ class Exception extends BaseException
         ];
     }
     
-    public function render(Request $request, Throwable $throwable)
+    /**
+     * @param \Throwable $throwable
+     *
+     * @return \Dybasedev\Keeper\Http\Response
+     */
+    public function render(Throwable $throwable)
     {
-        return $this->json(static::formatException($throwable), $throwable->getCode())->setStatusCode($throwable->getCode());
+        return $this->json(static::formatException($throwable))->setStatusCode(500);
+    }
+    
+    /**
+     * @param \Throwable $throwable
+     */
+    public function report(Throwable $throwable)
+    {
+    
     }
 }

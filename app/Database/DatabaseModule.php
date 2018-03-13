@@ -1,7 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: xiejianlai
+ * User: qbhy
  * Date: 2018/3/7
  * Time: 上午11:11
  */
@@ -9,7 +8,6 @@
 namespace App\Database;
 
 use App\Database\Connection\ConnectionPool;
-use App\Supports\Log\Log;
 use Dybasedev\Keeper\Module\Interfaces\ModuleProvider;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
