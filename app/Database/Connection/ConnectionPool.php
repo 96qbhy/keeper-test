@@ -1,11 +1,13 @@
 <?php
 /**
- * User: xiejianlai
+ * User: qbhy
  * Date: 2018/3/6
  * Time: 下午5:18
  */
 
 namespace App\Database\Connection;
+
+use App\Supports\Log\Log;
 
 class ConnectionPool
 {
@@ -17,6 +19,11 @@ class ConnectionPool
     
     /** @var Connection[] */
     protected $connections = [];
+    
+    /**
+     * @var \App\Database\Connection\Connection[]
+     */
+    protected static $fd_connections = [];
     
     /**
      * ConnectionPool constructor.
@@ -82,6 +89,9 @@ class ConnectionPool
      */
     public function createConnection(): Connection
     {
+        Log::info('createConnection', [
+            count($this->getConnections())
+        ]);
         $connection = new Connection($this->connectionConfig['driver'], $this->connectionConfig);
         $this->connections[] = $connection;
         
@@ -104,5 +114,16 @@ class ConnectionPool
         return $this;
     }
     
+    public static function setFdConnection(int $fd, Connection $connection)
+    {
+        static::$fd_connections[$fd] = $connection;
+    }
     
+    public static function releaseConnection(int $fd)
+    {
+        if (!empty(static::$fd_connections[$fd])) {
+            static::$fd_connections[$fd]->release();
+            unset(static::$fd_connections[$fd]);
+        }
+    }
 }
