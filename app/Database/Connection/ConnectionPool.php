@@ -57,7 +57,7 @@ class ConnectionPool
      *
      * @return Connection
      */
-    public function fetchIdleConnection(): Connection
+    public function getIdleConnection(): Connection
     {
         
         foreach ($this->connections as $connection) {
@@ -69,7 +69,7 @@ class ConnectionPool
         if (count($this->connections) < $this->size) {
             $connection = $this->createConnection();
         } else {
-            $connection = $this->fetchIdleConnection();
+            $connection = $this->getIdleConnection();
         }
         
         return $connection->occupy();

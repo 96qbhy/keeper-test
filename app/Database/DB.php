@@ -17,13 +17,6 @@ use App\Database\Connection\Connection;
  */
 class DB
 {
-    public function __construct(Connection $connection)
-    {
-        $this->connection = $connection;
-        $this->handler = new QueryBuilderHandler($connection);
-    }
-    
-    
     /** @var QueryBuilderHandler */
     protected $handler;
     
@@ -34,6 +27,12 @@ class DB
     protected $occupyMethods = [
         'get',
     ];
+    
+    public function __construct(Connection $connection)
+    {
+        $this->connection = $connection;
+        $this->handler = new QueryBuilderHandler($connection);
+    }
     
     public function __call($name, $arguments)
     {
