@@ -43,7 +43,7 @@ if (!function_exists('stop')) {
     function stop($pid_file)
     {
         if (is_file($pid_file)) {
-            posix_kill(file_get_contents($pid_file), SIGKILL);  // 启动服务器
+            posix_kill(file_get_contents($pid_file), SIGTERM);  // 启动服务器
             unlink($pid_file);
         }
     }

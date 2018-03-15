@@ -62,9 +62,11 @@ class ConnectionPool
     /**
      * 获取当前空闲的连接
      *
+     * @param int $num
+     *
      * @return Connection
      */
-    public function getIdleConnection(): Connection
+    public function getIdleConnection(int $num = 3): Connection
     {
         
         foreach ($this->connections as $connection) {
@@ -75,8 +77,10 @@ class ConnectionPool
         
         if (count($this->connections) < $this->size) {
             $connection = $this->createConnection();
+        } else if ($num) {
+            $connection = $this->getIdleConnection(--$num);
         } else {
-            $connection = $this->getIdleConnection();
+            $connection = $this->createConnection();
         }
         
         return $connection->occupy();
@@ -125,5 +129,16 @@ class ConnectionPool
             static::$fd_connections[$fd]->release();
             unset(static::$fd_connections[$fd]);
         }
+    }
+    
+    public function occupyCounts()
+    {
+        $count = 0;
+        
+        foreach ($this->connections as $connection) {
+            $connection->status !== Connection::STATUS_BUSY ? $count++ : null;
+        }
+        
+        return $count;
     }
 }

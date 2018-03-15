@@ -1,6 +1,6 @@
 <?php
 return [
-    'default' => 'mysql',
+    'default' => 'local_mysql',
     
     'max_connections_count' => 20,
     
@@ -12,6 +12,16 @@ return [
             'port' => 3306,
             'username' => 'tester',
             'password' => 'Huliao.123',
+            'charset' => 'utf8mb4',
+            'prefix' => '',
+        ],
+        'local_mysql' => [
+            'driver' => 'mysql',
+            'database' => 'merchant-backend',
+            'host' => '127.0.0.1',
+            'port' => 3306,
+            'username' => 'root',
+            'password' => 'root',
             'charset' => 'utf8mb4',
             'prefix' => '',
         ],

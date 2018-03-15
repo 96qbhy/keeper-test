@@ -11,7 +11,8 @@ class IndexController extends Controller
     {
         return $this->json([
             'data' => $this->db->table('merchants')->count(),
-            'connections_count' => count($pool->getConnections())
+            'connections_count' => count($pool->getConnections()),
+            'busy' => $pool->occupyCounts(),
         ]);
     }
     

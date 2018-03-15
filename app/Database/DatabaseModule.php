@@ -22,8 +22,7 @@ class DatabaseModule implements ModuleProvider
         $config = $container->make(Repository::class)->get('database');
         
         $container->singleton(ConnectionPool::class, function (Container $container) use ($config) {
-            ($pool = new ConnectionPool($config['connections'][$config['default']], $config['max_connections_count']))
-                ->createConnection();
+            ($pool = new ConnectionPool($config['connections'][$config['default']], $config['max_connections_count']));
             
             return $pool;
         });
