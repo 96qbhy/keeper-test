@@ -30,8 +30,8 @@ class Log
         'name' => 'keeper',
     ];
     
-    /** @var Logger */
-    public static $logger = null;
+   /** @var Logger */
+    protected static $logger = null;
     
     /**
      * @return Logger

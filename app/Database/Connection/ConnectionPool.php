@@ -68,19 +68,23 @@ class ConnectionPool
      */
     public function getIdleConnection(int $num = 3): Connection
     {
-        
         foreach ($this->connections as $connection) {
             if ($connection->status === Connection::STATUS_IDLE) {
+                print 'old' . PHP_EOL;
                 return $connection->occupy();
             }
         }
         
         if (count($this->connections) < $this->size) {
+            print 'create1' . PHP_EOL;
             $connection = $this->createConnection();
-        } else if ($num) {
-            $connection = $this->getIdleConnection(--$num);
+        } else if ($num == 0) {
+//            $connection = $this->createConnection();
+            print '用完了' . PHP_EOL;
+            throw new \Exception('链接用完了');
         } else {
-            $connection = $this->createConnection();
+            print 'continue' . PHP_EOL;
+            $connection = $this->getIdleConnection(--$num);
         }
         
         return $connection->occupy();

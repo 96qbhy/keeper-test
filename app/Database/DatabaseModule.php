@@ -19,6 +19,7 @@ class DatabaseModule implements ModuleProvider
     
     public function register(Container $container)
     {
+        $sql = 'select * from merchant_backend.answers';
         $config = $container->make(Repository::class)->get('database');
         
         $container->singleton(ConnectionPool::class, function (Container $container) use ($config) {
@@ -41,10 +42,11 @@ class DatabaseModule implements ModuleProvider
         $delegation = $container->make(WorkerHookDelegation::class);
         
         $delegation->processBegin(function (Request $request) {
-        
+            print 'process begin' . PHP_EOL;
         });
         
-        $delegation->processBegin(function (Request $request) {
+        $delegation->processEnd(function (Request $request, $response) {
+            print '应该释放这个链接了' . PHP_EOL;
             ConnectionPool::releaseConnection($request->getFd());
         });
         

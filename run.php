@@ -31,8 +31,9 @@ try {
         ->port(8089)
         ->ssl(false)
         ->setting([           // Swoole 的配置选项，更多请参考 https://wiki.swoole.com/wiki/page/274.html
-            'daemonize' => true,              // 开启守护进程
+            'daemonize' => false,              // 开启守护进程
             'pid_file' => $pid_file,  // 设置 PID 文件
+            'worker_num' => 1,
         ]);
     
     $action = $argv[1] ?? 'start';
