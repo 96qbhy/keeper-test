@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Database\Connection\ConnectionPool;
 use App\Database\DB;
 use App\Models\A;
+use App\Supports\Log\Log;
+use Swoole\Http\Response;
+use Swoole\Mysql;
 
 class IndexController extends Controller
 {
@@ -29,7 +32,7 @@ class IndexController extends Controller
     public function index(ConnectionPool $pool)
     {
         return $this->json([
-            'data' => rand(1, 1) ? $this->db->table('merchants')->count() : null,
+            'data' => $this->db->table('merchants')->count(),
             'connections_count' => count($pool->getConnections()),
             'busy' => $pool->occupyCounts(),
         ]);
@@ -44,7 +47,6 @@ class IndexController extends Controller
     
     public function qb()
     {
-        return $this->json([
-        ]);
+        return 'hello world';
     }
 }

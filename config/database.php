@@ -1,6 +1,6 @@
 <?php
 return [
-    'default' => 'mysql',
+    'default' => 'local_mysql',
     
     'max_connections_count' => 20,
     
