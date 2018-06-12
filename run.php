@@ -34,7 +34,7 @@ try {
         ->setting([           // Swoole 的配置选项，更多请参考 https://wiki.swoole.com/wiki/page/274.html
             'daemonize' => false,              // 开启守护进程
             'pid_file' => $pid_file,  // 设置 PID 文件
-            'worker_num' => 1,
+            'worker_num' => 4,
         ]);
 
     $action = $argv[1] ?? 'start';

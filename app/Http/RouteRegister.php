@@ -8,11 +8,8 @@ use Dybasedev\Keeper\Routing\RouteRegister as BaseRegister;
 
 class RouteRegister extends BaseRegister
 {
-    public function register(RouteCollector $collector)
+    public function register(RouteCollector $router)
     {
-        $collector->get('/test', [Controllers\IndexController::class, 'test']);
-        $collector->get('/', [Controllers\IndexController::class, 'index']);
-        $collector->get('ab', [Controllers\IndexController::class, 'ab']);
-        $collector->get('qb', [Controllers\IndexController::class, 'qb']);
+        require __DIR__ . '/../../routes/web.php';
     }
 }
