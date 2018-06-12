@@ -1,12 +1,12 @@
 <?php
 
-use App\Database\DatabaseModule;
+use \App\Modules\Database\DatabaseModule;
 
 return [
     'modules' => [
         DatabaseModule::class,
     ],
-    'log' => [
+    'log'     => [
         'path' => __DIR__ . '/../temp/app.log',
     ]
 ];

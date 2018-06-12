@@ -5,7 +5,7 @@
  * Time: 上午11:11
  */
 
-namespace App\Database;
+namespace App\Modules\Database;
 
 use Dybasedev\Keeper\Http\Interfaces\WorkerHookDelegation;
 use Dybasedev\Keeper\Http\Request;

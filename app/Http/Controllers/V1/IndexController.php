@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Database\DB;
 use App\Http\Controllers\Controller;
+use App\Modules\Database\DB;
 
 class IndexController extends Controller
 {

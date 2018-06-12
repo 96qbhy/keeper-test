@@ -16,7 +16,8 @@ class RouteRegister extends BaseRegister
         });
 
         // API 路由
-        $router->group([], function (RouteCollector $router) {
+        $router->group([
+        ], function (RouteCollector $router) {
             require __DIR__ . '/../../routes/api.php';
         });
     }

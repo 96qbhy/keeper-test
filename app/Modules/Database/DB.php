@@ -5,7 +5,7 @@
  * Time: 下午2:54
  */
 
-namespace App\Database;
+namespace App\Modules\Database;
 
 use Illuminate\Database\Capsule\Manager;
 
@@ -16,5 +16,5 @@ use Illuminate\Database\Capsule\Manager;
  */
 class DB extends Manager
 {
-    
+
 }
