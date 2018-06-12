@@ -7,7 +7,6 @@
 
 namespace App\Database;
 
-use App\Database\Connection\ConnectionPool;
 use Dybasedev\Keeper\Http\Interfaces\WorkerHookDelegation;
 use Dybasedev\Keeper\Http\Request;
 use Illuminate\Contracts\Config\Repository;
@@ -21,11 +20,16 @@ class DatabaseModule implements ModuleProvider
     {
         $config = $container->make(Repository::class)->get('database');
 
-        $container->singleton(ConnectionPool::class, function (Container $container) use ($config) {
-            ($pool = new ConnectionPool($config['connections'][$config['default']], $config['max_connections_count']));
+        $db = new DB();
 
-            return $pool;
-        });
+        array_map(function ($connectionConfig) use (&$db) {
+            $db->addConnection($connectionConfig);
+        }, $config['connections']);
+
+
+        // Make this Capsule instance available globally via static methods... (optional)
+        $db->setAsGlobal();
+
     }
 
     public function mount(Container $container)
@@ -39,12 +43,14 @@ class DatabaseModule implements ModuleProvider
         /** @var WorkerHookDelegation $delegation */
         $delegation = $container->make(WorkerHookDelegation::class);
 
+        // 开始
         $delegation->processBegin(function (Request $request) {
 
         });
 
+        // 结束
         $delegation->processEnd(function (Request $request, $response) {
-            ConnectionPool::releaseConnection($request->getFd());
+
         });
     }
 }

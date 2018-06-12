@@ -10,6 +10,14 @@ class RouteRegister extends BaseRegister
 {
     public function register(RouteCollector $router)
     {
-        require __DIR__ . '/../../routes/web.php';
+        // web 路由
+        $router->group([], function (RouteCollector $router) {
+            require __DIR__ . '/../../routes/web.php';
+        });
+
+        // API 路由
+        $router->group([], function (RouteCollector $router) {
+            require __DIR__ . '/../../routes/api.php';
+        });
     }
 }

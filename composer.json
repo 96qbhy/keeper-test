@@ -1,6 +1,6 @@
 {
   "require": {
-    "dybasedev/keeper": "dev-master",
+    "96qbhy/keeper": "dev-master",
     "monolog/monolog": "^1.23",
     "usmanhalalit/pixie": "^2.0"
   },

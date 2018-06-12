@@ -9,25 +9,24 @@
 namespace App\Exceptions;
 
 use App\Supports\Response\ResponseAble;
-use Dybasedev\Keeper\Http\Request;
 use Exception as BaseException;
 use Throwable;
 
 class Exception extends BaseException
 {
     use ResponseAble;
-    
+
     public static function formatException(Throwable $throwable)
     {
         return [
-            'message' => $throwable->getMessage(),
+            'message'   => $throwable->getMessage(),
             'exception' => get_class($throwable),
-            'file' => $throwable->getFile(),
-            'line' => $throwable->getLine(),
-            'traces' => $throwable->getTrace(),
+            'file'      => $throwable->getFile(),
+            'line'      => $throwable->getLine(),
+            'traces'    => $throwable->getTrace(),
         ];
     }
-    
+
     /**
      * @param \Throwable $throwable
      *
@@ -35,14 +34,18 @@ class Exception extends BaseException
      */
     public function render(Throwable $throwable)
     {
-        return $this->json(static::formatException($throwable))->setStatusCode(500);
+        return $this->json(
+            static::formatException($throwable)
+        )->setStatusCode(500);
     }
-    
+
     /**
      * @param \Throwable $throwable
+     *
+     * @return bool
      */
-    public function report(Throwable $throwable)
+    public function report(Throwable $throwable): bool
     {
-    
+        return false;
     }
 }
