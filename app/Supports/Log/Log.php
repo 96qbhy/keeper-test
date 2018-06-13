@@ -29,50 +29,50 @@ class Log
     protected static $config = [
         'name' => 'keeper',
     ];
-    
-   /** @var Logger */
+
+    /** @var Logger */
     protected static $logger = null;
-    
+
     /**
      * @return Logger
      * @throws \Exception
      */
     public static function getLogger(): Logger
     {
-        if (!static::$logger) {
-            static::initConfig();
-            $logger = new Logger(static::$config['name']);
-            $logger->pushHandler(
-                new StreamHandler(static::$config['path'])
-            );
-            static::$logger = $logger;
+        if (is_null(static::$logger)) {
+            static::initLogger();
         }
-        
+
         return static::$logger;
     }
-    
-    public static function initConfig()
+
+    public static function initLogger($path = null, $name = null)
     {
-        $app_config = require __DIR__ . '/../../../config/app.php';
-        static::$config['path'] = $app_config['log']['path'];
+        static::$config['path'] = $path ?? __DIR__ . '/../../../temp/app.log';
+        $logger                 = new Logger($name ?? static::$config['name']);
+        $logger->pushHandler(
+            new StreamHandler(static::$config['path'])
+        );
+        static::$logger = $logger;
     }
-    
+
     /**
      * @param $name
      * @param $arguments
+     *
      * @return null|bool
      * @throws \Exception
      */
     public static function __callStatic($name, $arguments)
     {
         $logger = static::getLogger();
-        
+
         if (method_exists($logger, $name)) {
             return $logger->$name(...$arguments);
         }
-        
+
         return null;
     }
-    
-    
+
+
 }
