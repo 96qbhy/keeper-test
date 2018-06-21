@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
@@ -13,13 +14,14 @@ set_error_handler('keeper_error_handler');
 
 try {
 
+    $exceptionHandler = new Handler();
     // 创建服务器调度内核
     $kernel = new KeeperKernel(
     // 创建 HTTP 服务逻辑
         (new Service([
             'base'   => __DIR__,
             'config' => __DIR__ . DIRECTORY_SEPARATOR . 'config',
-        ]))->setExceptionHandler(new Handler())
+        ]))->setExceptionHandler($exceptionHandler)
     );
 
     // 创建 HTTP 服务器
@@ -44,11 +46,6 @@ try {
             break;
         case 'stop':
             stop($pid_file);
-            break;
-        case 'restart':
-            stop($pid_file);
-            sleep(1);
-            $server->start();
             break;
     }
 

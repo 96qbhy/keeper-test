@@ -29,7 +29,6 @@ class DatabaseModule implements ModuleProvider
 
         // Make this Capsule instance available globally via static methods... (optional)
         $db->setAsGlobal();
-
     }
 
     public function mount(Container $container)
